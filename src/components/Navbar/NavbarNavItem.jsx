@@ -1,10 +1,13 @@
 import React from 'react'
 
-function NavbarNavItem () {
+function NavbarNavItem (props) {
   return (
     <li className='nav-item'>
-      <a className='nav-link' href='#'>
-        Link
+      <a
+        className='nav-link'
+        href={props.to}
+      >
+        {props.text}
       </a>
     </li>
   )

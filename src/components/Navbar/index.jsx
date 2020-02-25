@@ -6,7 +6,7 @@ import NavbarCollapse from './NavbarCollapse'
 
 function Navbar () {
   return (
-    <nav className='navbar navbar-expand-md navbar-dark fixed-top bg-dark'>
+    <nav className='navbar navbar-expand-md navbar-dark bg-dark'>
       <NavbarBrand />
       <NavbarToggler />
       <NavbarCollapse />
