@@ -13,31 +13,10 @@ class Home extends Component {
     }
   }
 
-  componentWillMount () {
-    console.log('esto es antes de montarme')
-    this.setState({ posts: [{ title: 'Post 1' }] })
-
-    console.log(this.state.posts)
-  }
-
   componentDidMount () {
     setTimeout(() => {
       this.setState({ loading: false })
     }, 1000)
-  }
-
-  componentWillUpdate () {
-    console.log('me estoy actualizando')
-    console.log(this.state.posts)
-  }
-
-  componentDidUpdate () {
-    console.log('ya me actualicé')
-    console.log(this.state.posts)
-  }
-
-  componentWillDestroy () {
-    console.log('ya me morí :c')
   }
 
   render () {
