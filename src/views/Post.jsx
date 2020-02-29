@@ -5,7 +5,9 @@ import PostForm from '../components/PostForm'
 class Post extends Component {
   render () {
     return (
-      <PostForm />
+      <PostForm
+        onSubmit={this.props.onSubmit}
+      />
     )
   }
 }

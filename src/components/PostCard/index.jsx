@@ -11,6 +11,7 @@ function PostCard (props) {
       />
 
       <PostCardBody
+        title={props.title}
         text={props.text}
         readTime={props.readTime}
       >

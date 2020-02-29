@@ -1,16 +1,7 @@
 import React, { Component } from 'react'
 
 class AppTextArea extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      value: ''
-    }
-  }
-
   onChange (event) {
-    this.setState({ value: event.target.value })
     if (this.props.onChange) this.props.onChange(event)
   }
 
@@ -18,7 +9,8 @@ class AppTextArea extends Component {
     const {
       id,
       label,
-      rows = 3
+      rows = 3,
+      value
     } = this.props
 
     return (
@@ -29,7 +21,7 @@ class AppTextArea extends Component {
         <textarea
           id={id}
           rows={rows}
-          value={this.state.value}
+          value={value}
           onChange={this.onChange.bind(this)}
           className='form-control'
         />

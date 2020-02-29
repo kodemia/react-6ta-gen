@@ -4,7 +4,7 @@ function NavbarBrand () {
   return (
     <a
       className='navbar-brand'
-      href='#'
+      href='/to-landing-page'
     >
       Navbar
     </a>

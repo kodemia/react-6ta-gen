@@ -1,21 +1,40 @@
-import React from 'react'
+import React, { Component } from 'react'
 
 import Navbar from './components/Navbar'
 
 import Home from './views/Home'
 import Post from './views/Post'
 
-function App () {
-  return (
-    <div className='app'>
-      <Navbar />
+class App extends Component {
+  constructor (props) {
+    super(props)
 
-      <div className='container'>
-        <Post />
-        <Home />
+    this.state = {
+      posts: []
+    }
+  }
+
+  onNewPost (post) {
+    this.setState({
+      posts: [
+        ...this.state.posts,
+        post
+      ]
+    })
+  }
+
+  render () {
+    return (
+      <div className='app'>
+        <Navbar />
+
+        <div className='container'>
+          <Post onSubmit={this.onNewPost.bind(this)} />
+          <Home posts={this.state.posts} />
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default App

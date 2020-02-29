@@ -3,12 +3,15 @@ import React from 'react'
 import NavbarNav from './NavbarNav'
 import NavbarNavSearch from './NavbarNavSearcher'
 
-function NavbarCollapse () {
+function NavbarCollapse (props) {
+  const styles = ['collapse', 'navbar-collapse']
+
+  if (props.active) styles.push('show')
+
+  const className = styles.join(' ')
+
   return (
-    <div
-      id='navbarsExampleDefault'
-      className='collapse navbar-collapse'
-    >
+    <div className={className}>
       <NavbarNav />
       <NavbarNavSearch />
     </div>
