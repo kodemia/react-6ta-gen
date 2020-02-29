@@ -12,7 +12,8 @@ class AppInput extends Component {
       label,
       ariaDescribedBy,
       children,
-      value
+      value,
+      placeholder
     } = this.props
 
     return (
@@ -26,6 +27,7 @@ class AppInput extends Component {
           aria-describedby={ariaDescribedBy}
           value={value}
           onChange={this.onChange.bind(this)}
+          placeholder={placeholder}
           className='form-control'
         />
         {children}
