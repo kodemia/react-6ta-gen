@@ -7,6 +7,8 @@ import Post from './views/Post'
 
 import LoginForm from './components/LoginForm'
 
+import api from './lib/api'
+
 class App extends Component {
   constructor (props) {
     super(props)
@@ -17,40 +19,17 @@ class App extends Component {
   }
 
   async onLogin (auth) {
-    try {
-      const response = await window.fetch('http://localhost:8080/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: auth.email,
-          password: auth.password
-        })
-      })
+    const payload = await api.login(auth.email, auth.password)
 
-      const payload = await response.json()
-
-      this.setState({ authorization: payload.data.token })
-
-      window.sessionStorage.setItem('authorization', payload.data.token)
-    } catch (error) {
-      window.alert('Ocurrió un error al iniciar sesión')
-    }
+    this.setState({ authorization: payload.data.token })
   }
 
   async componentDidMount () {
     const token = window.sessionStorage.getItem('authorization')
 
-    if (token) {
-      const response = await window.fetch('http://localhost:8080/users/validate-session', {
-        headers: { authorization: token }
-      })
+    const payload = await api.validateSession(token)
 
-      const payload = await response.json()
-
-      this.setState({ authorization: payload.data.token })
-
-      window.sessionStorage.setItem('authorization', payload.data.token)
-    }
+    this.setState({ authorization: payload.data.token })
   }
 
   render () {
