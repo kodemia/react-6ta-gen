@@ -13,7 +13,7 @@ class Login extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const token = window.sessionStorage.getItem('authorization')
 
     if (token) this.props.history.replace('/')

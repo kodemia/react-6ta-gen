@@ -1,6 +1,6 @@
 const API_URL = 'http://192.168.9.20:8080'
 
-async function login(email, password) {
+async function login (email, password) {
   const emptyResponse = { data: { token: '' } }
 
   try {
@@ -17,7 +17,7 @@ async function login(email, password) {
       if (response.status >= 500) window.alert('El server esta morido :c')
       else window.alert('Las credenciales son incorrectas')
 
-      return emptyResponse  
+      return emptyResponse
     }
 
     const payload = await response.json()
@@ -32,7 +32,7 @@ async function login(email, password) {
   }
 }
 
-async function validateSession(token) {
+async function validateSession (token) {
   const emptyResponse = { data: { token: '' } }
 
   if (!token) return emptyResponse
@@ -54,7 +54,7 @@ async function validateSession(token) {
   }
 }
 
-async function getPosts() {
+async function getPosts () {
   const emptyResponse = { data: { posts: [] } }
 
   try {
@@ -70,7 +70,7 @@ async function getPosts() {
       if (response.status >= 500) window.alert('El server esta morido :c')
       else window.alert('Las credenciales son incorrectas')
 
-      return emptyResponse  
+      return emptyResponse
     }
 
     payload.data.posts = payload.data.posts.map((badPost) => ({
