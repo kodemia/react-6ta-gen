@@ -1,6 +1,10 @@
+const API_URL = 'http://192.168.9.20:8080'
+
 async function login(email, password) {
+  const emptyResponse = { data: { token: '' } }
+
   try {
-    const response = await window.fetch('http://localhost:8080/users/login', {
+    const response = await window.fetch(`${API_URL}/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -8,6 +12,13 @@ async function login(email, password) {
         password: password
       })
     })
+
+    if (!response.ok) {
+      if (response.status >= 500) window.alert('El server esta morido :c')
+      else window.alert('Las credenciales son incorrectas')
+
+      return emptyResponse  
+    }
 
     const payload = await response.json()
 
@@ -17,11 +28,7 @@ async function login(email, password) {
   } catch (error) {
     window.alert('Ocurrió un error al iniciar sesión')
 
-    return {
-      data: {
-        token: ''
-      }
-    }
+    return emptyResponse
   }
 }
 
@@ -31,7 +38,7 @@ async function validateSession(token) {
   if (!token) return emptyResponse
 
   try {
-    const response = await window.fetch('http://localhost:8080/users/validate-session', {
+    const response = await window.fetch(`${API_URL}/users/validate-session`, {
       headers: { authorization: token }
     })
 
@@ -48,14 +55,23 @@ async function validateSession(token) {
 }
 
 async function getPosts() {
+  const emptyResponse = { data: { posts: [] } }
+
   try {
     const token = window.sessionStorage.getItem('authorization')
 
-    const response = await window.fetch('http://localhost:8080/posts', {
+    const response = await window.fetch(`${API_URL}/posts`, {
       headers: { authorization: token }
     })
 
     const payload = await response.json()
+
+    if (!response.ok) {
+      if (response.status >= 500) window.alert('El server esta morido :c')
+      else window.alert('Las credenciales son incorrectas')
+
+      return emptyResponse  
+    }
 
     payload.data.posts = payload.data.posts.map((badPost) => ({
       image: badPost.imageUrl,
@@ -68,11 +84,7 @@ async function getPosts() {
   } catch (error) {
     window.alert('Ocurrió un error al obtener los posts')
 
-    return {
-      data: {
-        posts: []
-      }
-    }
+    return emptyResponse
   }
 }
 
@@ -80,7 +92,7 @@ async function newPost (post) {
   try {
     const token = window.sessionStorage.getItem('authorization')
 
-    const response = await window.fetch('http://localhost:8080/posts', {
+    const response = await window.fetch(`${API_URL}/posts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

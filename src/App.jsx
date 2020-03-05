@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
+import {
+  BrowserRouter,
+  Switch,
+  Route
+} from 'react-router-dom'
 
 import Navbar from './components/Navbar'
+import ValidateSession from './components/ValidateSession'
 
 import Home from './views/Home'
 import Post from './views/Post'
-
-import LoginForm from './components/LoginForm'
+import Login from './views/Login'
 
 import api from './lib/api'
 
@@ -18,12 +23,6 @@ class App extends Component {
     }
   }
 
-  async onLogin (auth) {
-    const payload = await api.login(auth.email, auth.password)
-
-    this.setState({ authorization: payload.data.token })
-  }
-
   async componentDidMount () {
     const token = window.sessionStorage.getItem('authorization')
 
@@ -33,22 +32,32 @@ class App extends Component {
   }
 
   render () {
-    if (!this.state.authorization) {
-      return (
-        <div className='app login'>
-          <LoginForm onSubmit={this.onLogin.bind(this)} />
-        </div>
-      )
-    }
-
     return (
-      <div className='app'>
-        <Navbar />
-        <div className='container'>
-          <Post />
-          <Home />
+      <BrowserRouter>
+        <div className='app'>
+          <Navbar />
+          <ValidateSession />
+          <div className='container'>
+            <Switch>
+              <Route
+                path='/'
+                component={Home}
+                exact
+              />
+              <Route
+                path='/post'
+                component={Post}
+                exact
+              />
+              <Route
+                path='/login'
+                component={Login}
+                exact
+              />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     )
   }
 }
