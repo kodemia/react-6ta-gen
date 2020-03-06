@@ -11,6 +11,7 @@ import ValidateSession from './components/ValidateSession'
 import Home from './views/Home'
 import Post from './views/Post'
 import Login from './views/Login'
+import Logout from './views/Logout'
 
 import api from './lib/api'
 
@@ -31,31 +32,42 @@ class App extends Component {
     this.setState({ authorization: payload.data.token })
   }
 
+  componentDidUpdate () {
+    const token = window.sessionStorage.getItem('authorization')
+
+    if (token && !this.state.authorization) {
+      this.setState({ authorization: token })
+    }
+  }
+
   render () {
     return (
       <BrowserRouter>
         <div className='app'>
-          <Navbar />
+          {this.state.authorization && <Navbar />}
           <ValidateSession />
-          <div className='container'>
-            <Switch>
-              <Route
-                path='/'
-                component={Home}
-                exact
-              />
-              <Route
-                path='/post'
-                component={Post}
-                exact
-              />
-              <Route
-                path='/login'
-                component={Login}
-                exact
-              />
-            </Switch>
-          </div>
+          <Switch>
+            <Route
+              path='/'
+              component={Home}
+              exact
+            />
+            <Route
+              path='/post'
+              component={Post}
+              exact
+            />
+            <Route
+              path='/login'
+              component={Login}
+              exact
+            />
+            <Route
+              path='/logout'
+              component={Logout}
+              exact
+            />
+          </Switch>
         </div>
       </BrowserRouter>
     )

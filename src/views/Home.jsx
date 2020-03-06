@@ -16,12 +16,16 @@ class Home extends Component {
   }
 
   async componentDidMount () {
-    const payload = await api.getPosts()
+    const token = window.sessionStorage.getItem('authorization')
 
-    this.setState({
-      posts: payload.data.posts,
-      loading: false
-    })
+    if (token) {
+      const payload = await api.getPosts()
+
+      this.setState({
+        posts: payload.data.posts,
+        loading: false
+      })
+    }
   }
 
   render () {

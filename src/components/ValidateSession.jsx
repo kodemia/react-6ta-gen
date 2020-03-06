@@ -2,10 +2,22 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 class ValidateSession extends Component {
-  componentDidMount () {
+  validate () {
     const token = window.sessionStorage.getItem('authorization')
 
-    if (!token && this.props.match.path !== '/login') this.props.history.replace('/login')
+    if (!token) {
+      if (this.props.location.pathname !== '/login') this.props.history.push('/login')
+    } else {
+      if (this.props.location.pathname === '/login') this.props.history.push('/')
+    }
+  }
+
+  componentDidMount () {
+    this.validate()
+  }
+
+  componentDidUpdate () {
+    this.validate()
   }
 
   render () {

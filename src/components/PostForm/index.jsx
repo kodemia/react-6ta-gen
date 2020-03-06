@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
-import AppInput from './AppInput'
-import AppTextArea from './AppTextArea'
+import AppInput from '../AppInput'
+import AppTextArea from '../AppTextArea'
 
-import AppButton from './AppButton'
+import AppButton from '../AppButton'
+
+import styles from './index.module.css'
 
 class PostForm extends Component {
   constructor (props) {
@@ -49,7 +51,7 @@ class PostForm extends Component {
 
   render () {
     return (
-      <div className='row post-form'>
+      <div className={`row ${styles.container}`}>
         <form
           onSubmit={this.onSubmit.bind(this)}
           className='col-6'

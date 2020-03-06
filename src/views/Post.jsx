@@ -7,7 +7,10 @@ import api from '../lib/api'
 class Post extends Component {
   async onSubmit (post) {
     const payload = await api.newPost(post)
+
     window.alert(payload.data.posts._id)
+
+    this.props.history.push('/')
   }
 
   render () {

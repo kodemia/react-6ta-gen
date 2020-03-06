@@ -7,13 +7,18 @@ function NavbarNav () {
     <ul className='navbar-nav mr-auto'>
       <NavbarNavItem
         text='Home'
-        to='/home'
+        to='/'
         active
       />
 
       <NavbarNavItem
-        text='Sign In'
-        to='/sign-in'
+        text='New Post'
+        to='/post'
+      />
+
+      <NavbarNavItem
+        text='Logout'
+        to='/logout'
       />
     </ul>
   )

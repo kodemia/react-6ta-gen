@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../../components/LoginForm'
 
-import api from '../lib/api'
+import api from '../../lib/api'
+
+import styles from './index.module.css'
 
 class Login extends Component {
   constructor (props) {
@@ -29,7 +31,7 @@ class Login extends Component {
 
   render () {
     return (
-      <div className='app login'>
+      <div className={styles.view}>
         <LoginForm onSubmit={this.onLogin.bind(this)} />
       </div>
     )

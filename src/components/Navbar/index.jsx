@@ -4,6 +4,8 @@ import NavbarBrand from './NavbarBrand'
 import NavbarToggler from './NavbarToggler'
 import NavbarCollapse from './NavbarCollapse'
 
+import styles from './index.module.css'
+
 class Navbar extends Component {
   constructor (props) {
     super(props)
@@ -19,10 +21,12 @@ class Navbar extends Component {
 
   render () {
     return (
-      <nav className='navbar navbar-expand-md navbar-dark bg-dark'>
-        <NavbarBrand />
-        <NavbarToggler onClick={this.toggleNavbar.bind(this)} />
-        <NavbarCollapse active={this.state.active} />
+      <nav className={`navbar navbar-expand-md ${styles.main}`}>
+        <div className='container'>
+          <NavbarBrand />
+          <NavbarToggler onClick={this.toggleNavbar.bind(this)} />
+          <NavbarCollapse active={this.state.active} />
+        </div>
       </nav>
     )
   }

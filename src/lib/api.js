@@ -1,4 +1,4 @@
-const API_URL = 'http://192.168.9.20:8080'
+const API_URL = 'http://192.168.37.218:8081'
 
 async function login (email, password) {
   const emptyResponse = { data: { token: '' } }
