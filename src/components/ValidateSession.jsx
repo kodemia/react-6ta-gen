@@ -4,14 +4,15 @@ import { withRouter } from 'react-router-dom'
 function ValidateSession (props) {
   const [authorization, setAuthorization] = useState('')
   const { pathname } = props.match
-  const { history, onValidate } = props
+  const { push } = props.history
+  const { onValidate } = props
 
   useEffect(() => {
     const token = window.sessionStorage.getItem('authorization')
 
     function validate () {
-      if (!authorization && pathname !== '/login') history.push('/login')
-      if (!authorization && pathname === '/login') history.push('/')
+      if (!authorization && pathname !== '/login') push('/login')
+      if (!authorization && pathname === '/login') push('/')
     }
 
     setAuthorization(token)
@@ -21,8 +22,8 @@ function ValidateSession (props) {
   }, [
     authorization,
     pathname,
-    history,
-    onValidate
+    onValidate,
+    push
   ])
 
   return <div />
