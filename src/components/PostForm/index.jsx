@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
 import AppInput from '../AppInput'
 import AppTextArea from '../AppTextArea'
@@ -7,110 +7,92 @@ import AppButton from '../AppButton'
 
 import styles from './index.module.css'
 
-class PostForm extends Component {
-  constructor (props) {
-    super(props)
+function PostForm (props) {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [description, setDescription] = useState('')
+  const [image, setImage] = useState('')
 
-    this.state = {
-      title: '',
-      author: '',
-      description: '',
-      createdAt: new Date(),
-      image: ''
-    }
-  }
-
-  get readTime () {
-    return this.state.description.length * 60
-  }
-
-  onChange (event) {
-    const { id, value } = event.target
-
-    this.setState({ [id]: value })
-  }
-
-  onSubmit (event) {
+  function onSubmit (event) {
     event.preventDefault()
 
-    if (this.props.onSubmit) {
-      this.props.onSubmit({
-        ...this.state,
-        readTime: this.readTime
+    if (props.onSubmit) {
+      props.onSubmit({
+        author,
+        description,
+        title,
+        image,
+        createdAt: new Date(),
+        readTime: description.length * 60
       })
     }
 
-    this.setState({
-      title: '',
-      author: '',
-      description: '',
-      createdAt: new Date(),
-      image: ''
-    })
+    setAuthor('')
+    setDescription('')
+    setImage('')
+    setTitle('')
   }
 
-  render () {
-    return (
-      <div className={`row ${styles.container}`}>
-        <form
-          onSubmit={this.onSubmit.bind(this)}
-          className='col-6'
-        >
-          <h1>Nuevo Post</h1>
+  return (
+    <div className={`row ${styles.container}`}>
+      <form
+        onSubmit={onSubmit}
+        className='col-6'
+      >
+        <h1>Nuevo Post</h1>
 
-          <AppInput
-            id='author'
-            label='Autor'
-            type='text'
-            ariaDescribedBy='author name'
-            value={this.state.author}
-            onChange={this.onChange.bind(this)}
+        <AppInput
+          id='author'
+          label='Autor'
+          type='text'
+          ariaDescribedBy='author name'
+          value={author}
+          onChange={(event) => setAuthor(event.target.value)}
+        />
+
+        <AppInput
+          id='title'
+          label='Titulo'
+          type='text'
+          ariaDescribedBy='post title'
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
+
+        <AppTextArea
+          id='description'
+          label='Texto'
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
+        />
+
+        <AppInput
+          id='image'
+          label='Imagen'
+          type='text'
+          ariaDescribedBy='url image'
+          value={image}
+          onChange={(event) => setImage(event.target.value)}
+        />
+
+        <AppButton
+          type='submit'
+          text='Guardar'
+          className='btn-primary'
+        />
+      </form>
+
+      {
+        image ? (
+          <img
+            src={image}
+            alt='post preview'
+            className='col-6'
           />
-
-          <AppInput
-            id='title'
-            label='Titulo'
-            type='text'
-            ariaDescribedBy='post title'
-            value={this.state.title}
-            onChange={this.onChange.bind(this)}
-          />
-
-          <AppTextArea
-            id='description'
-            label='Texto'
-            value={this.state.description}
-            onChange={this.onChange.bind(this)}
-          />
-
-          <AppInput
-            id='image'
-            label='Imagen'
-            type='text'
-            ariaDescribedBy='url image'
-            value={this.state.image}
-            onChange={this.onChange.bind(this)}
-          />
-
-          <AppButton
-            type='submit'
-            text='Guardar'
-            className='btn-primary'
-          />
-        </form>
-
-        {
-          this.state.image ? (
-            <img
-              src={this.state.image}
-              alt='post preview'
-              className='col-6'
-            />
-          ) : 'Ingresa un valor de URL en el campo image'
-        }
-      </div>
-    )
-  }
+        ) : 'Ingresa un valor de URL en el campo image'
+      }
+    </div>
+  )
 }
 
 export default PostForm

@@ -1,28 +1,31 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 
-class ValidateSession extends Component {
-  validate () {
+function ValidateSession (props) {
+  const [authorization, setAuthorization] = useState('')
+  const { pathname } = props.match
+  const { history, onValidate } = props
+
+  useEffect(() => {
     const token = window.sessionStorage.getItem('authorization')
 
-    if (!token) {
-      if (this.props.location.pathname !== '/login') this.props.history.push('/login')
-    } else {
-      if (this.props.location.pathname === '/login') this.props.history.push('/')
+    function validate () {
+      if (!authorization && pathname !== '/login') history.push('/login')
+      if (!authorization && pathname === '/login') history.push('/')
     }
-  }
 
-  componentDidMount () {
-    this.validate()
-  }
+    setAuthorization(token)
+    validate()
 
-  componentDidUpdate () {
-    this.validate()
-  }
+    if (onValidate) onValidate(authorization)
+  }, [
+    authorization,
+    pathname,
+    history,
+    onValidate
+  ])
 
-  render () {
-    return <div />
-  }
+  return <div />
 }
 
 export default withRouter(ValidateSession)

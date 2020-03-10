@@ -1,25 +1,23 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import PostForm from '../components/PostForm'
 
 import api from '../lib/api'
 
-class Post extends Component {
-  async onSubmit (post) {
+function Post (props) {
+  async function onSubmit (post) {
     const payload = await api.newPost(post)
 
     window.alert(payload.data.posts._id)
 
-    this.props.history.push('/')
+    props.history.push('/')
   }
 
-  render () {
-    return (
-      <PostForm
-        onSubmit={this.onSubmit.bind(this)}
-      />
-    )
-  }
+  return (
+    <PostForm
+      onSubmit={onSubmit}
+    />
+  )
 }
 
 export default Post

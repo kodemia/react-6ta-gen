@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 
-class Logout extends Component {
-  componentDidMount () {
+function Logout (props) {
+  const { replace } = props.history
+
+  useEffect(() => {
     window.sessionStorage.removeItem('authorization')
 
-    this.props.history.replace('/login')
-  }
+    replace('/login')
+  }, [replace])
 
-  render () {
-    return (
-      <div />
-    )
-  }
+  return (
+    <div />
+  )
 }
 
 export default Logout

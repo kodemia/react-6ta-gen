@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import LoginForm from '../../components/LoginForm'
 
@@ -6,36 +6,29 @@ import api from '../../lib/api'
 
 import styles from './index.module.css'
 
-class Login extends Component {
-  constructor (props) {
-    super(props)
+function Login (props) {
+  const [authorization, setAuthorization] = useState('')
+  const { replace } = props.history
 
-    this.state = {
-      authorization: ''
-    }
-  }
-
-  componentDidMount () {
+  useEffect(() => {
     const token = window.sessionStorage.getItem('authorization')
 
-    if (token) this.props.history.replace('/')
-  }
+    if (token) replace('/')
+  }, [replace, authorization])
 
-  async onLogin (auth) {
+  async function onLogin (auth) {
     const payload = await api.login(auth.email, auth.password)
 
-    this.setState({ authorization: payload.data.token })
+    setAuthorization(payload.data.token)
 
-    this.props.history.replace('/')
+    replace('/')
   }
 
-  render () {
-    return (
-      <div className={styles.view}>
-        <LoginForm onSubmit={this.onLogin.bind(this)} />
-      </div>
-    )
-  }
+  return (
+    <div className={styles.view}>
+      <LoginForm onSubmit={onLogin} />
+    </div>
+  )
 }
 
 export default Login

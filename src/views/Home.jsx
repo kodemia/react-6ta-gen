@@ -1,38 +1,33 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import AppLoading from '../components/AppLoading'
 import PostList from '../components/PostList'
 
 import api from '../lib/api'
 
-class Home extends Component {
-  constructor (props) {
-    super(props)
+function Home () {
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
 
-    this.state = {
-      posts: [],
-      loading: true
+  useEffect(() => {
+    async function getPosts () {
+      const token = window.sessionStorage.getItem('authorization')
+
+      if (token) {
+        const payload = await api.getPosts()
+
+        if (posts.length !== payload.data.posts.length) setPosts(payload.data.posts)
+      }
+
+      setLoading(false)
     }
-  }
 
-  async componentDidMount () {
-    const token = window.sessionStorage.getItem('authorization')
+    getPosts()
+  }, [posts, loading])
 
-    if (token) {
-      const payload = await api.getPosts()
+  if (loading) return <AppLoading />
 
-      this.setState({
-        posts: payload.data.posts,
-        loading: false
-      })
-    }
-  }
-
-  render () {
-    if (this.state.loading) return <AppLoading />
-
-    return <PostList list={this.state.posts} />
-  }
+  return <PostList list={posts} />
 }
 
 export default Home

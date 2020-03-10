@@ -1,4 +1,4 @@
-const API_URL = 'http://192.168.37.218:8081'
+const API_URL = 'http://localhost:8080'
 
 async function login (email, password) {
   const emptyResponse = { data: { token: '' } }
@@ -74,6 +74,7 @@ async function getPosts () {
     }
 
     payload.data.posts = payload.data.posts.map((badPost) => ({
+      id: badPost._id,
       image: badPost.imageUrl,
       title: badPost.title,
       text: badPost.description,
@@ -124,11 +125,39 @@ async function newPost (post) {
   }
 }
 
+async function getPost (postId) {
+  try {
+    const token = window.sessionStorage.getItem('authorization')
+
+    const response = await window.fetch(`${API_URL}/posts/${postId}`, {
+      headers: {
+        authorization: token
+      }
+    })
+
+    const payload = await response.json()
+
+    return payload
+  } catch (error) {
+    window.alert('Ocurrió un error al guardar el post')
+
+    return {
+      data: {
+        post: {
+          _id: '',
+          title: ''
+        }
+      }
+    }
+  }
+}
+
 const api = {
   login,
   validateSession,
   getPosts,
-  newPost
+  newPost,
+  getPost
 }
 
 export default api
